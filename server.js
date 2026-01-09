@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 
 // Routes
 const developersRoutes = require('./src/routes/developers');
@@ -18,10 +19,6 @@ app.use('/api/developers', developersRoutes);
 app.use('/api/games', gamesRoutes);
 app.use('/api/statistics', statisticsRoutes);
 
-// Root route
-app.get('/', (req, res) => {
-  res.send('Games API is running');
-});
 
 // Initialize database and start server
 async function startServer() {

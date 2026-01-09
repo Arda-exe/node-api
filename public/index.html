@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games API Documentation</title>
+</head>
+<body>
+    <h1>Games API Documentation</h1>
+    <p>Base URL: <code>http://localhost:3000</code></p>
+
+    <h2>Developers Endpoints</h2>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Description</th>
+            <th>Parameters</th>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/api/developers</td>
+            <td>Get all developers</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/api/developers/:id</td>
+            <td>Get single developer by ID</td>
+            <td>id (path parameter)</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/api/developers/:id/games</td>
+            <td>Get all games by a developer</td>
+            <td>id (path parameter)</td>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td>/api/developers</td>
+            <td>Create a new developer</td>
+            <td>Body: name, country, founded_year, website (optional)</td>
+        </tr>
+        <tr>
+            <td>PUT</td>
+            <td>/api/developers/:id</td>
+            <td>Update a developer</td>
+            <td>id (path parameter), Body: name, country, founded_year, website</td>
+        </tr>
+        <tr>
+            <td>DELETE</td>
+            <td>/api/developers/:id</td>
+            <td>Delete a developer</td>
+            <td>id (path parameter)</td>
+        </tr>
+    </table>
+
+    <h2>Games Endpoints</h2>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Description</th>
+            <th>Parameters</th>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/api/games</td>
+            <td>Get all games with filtering, sorting, and pagination</td>
+            <td>
+                Query Parameters:<br>
+                - limit (default: 10)<br>
+                - offset (default: 0)<br>
+                - search (searches title and description)<br>
+                - genre (filter by single genre)<br>
+                - genres (filter by multiple genres, comma-separated)<br>
+                - sort (rating, release_year, price, title)<br>
+                - order (asc or desc)<br>
+                - minPrice, maxPrice (price range)<br>
+                - minRating, maxRating (rating range 0-10)
+            </td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/api/games/:id</td>
+            <td>Get single game by ID</td>
+            <td>id (path parameter)</td>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td>/api/games</td>
+            <td>Create a new game</td>
+            <td>Body: title, description, genre, release_year, platform, rating (0-10), price, developer_id</td>
+        </tr>
+        <tr>
+            <td>PUT</td>
+            <td>/api/games/:id</td>
+            <td>Update a game</td>
+            <td>id (path parameter), Body: title, description, genre, release_year, platform, rating, price, developer_id</td>
+        </tr>
+        <tr>
+            <td>DELETE</td>
+            <td>/api/games/:id</td>
+            <td>Delete a game</td>
+            <td>id (path parameter)</td>
+        </tr>
+    </table>
+
+    <h2>Statistics Endpoint</h2>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Description</th>
+            <th>Parameters</th>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/api/statistics</td>
+            <td>Get API statistics (total counts, averages, top developers)</td>
+            <td>None</td>
+        </tr>
+    </table>
+</body>
+</html>
