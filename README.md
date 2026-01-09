@@ -14,15 +14,13 @@ npm install
 2. Configureer MySQL met XAMPP:
    - Download en installeer [XAMPP](https://www.apachefriends.org/)
    - Start de XAMPP Control Panel
-   - Start de **MySQL** service (klik op "Start" naast MySQL)
+   - Start de **MySQL** service
    - Open phpMyAdmin: `http://localhost/phpmyadmin`
-   - Klik op "New" in de linkerzijbalk
    - Maak database aan met naam: `games_api`
-   - Dat is alles! De tabellen en data worden automatisch aangemaakt bij de eerste start
 
 3. Configureer environment variables:
    - Kopieer `.env.example` naar `.env`
-   - Pas de database password aan in `.env` (standaard is dit leeg bij XAMPP):
+   - Pas de database password aan in `.env` (standaard leeg bij XAMPP):
 ```
 PORT=3000
 DB_HOST=localhost
@@ -36,27 +34,25 @@ DB_NAME=games_api
 npm start
 ```
 
-De tabellen en voorbeelddata worden nu automatisch aangemaakt!
-
 De API is nu beschikbaar op `http://localhost:3000`
 
 ## Features
 
 ### Minimum Requirements
-- ✅ Twee CRUD interfaces (Games + Developers)
-- ✅ Basisvalidatie
-- ✅ Paginering (limit & offset)
-- ✅ Zoekfunctionaliteit
-- ✅ Root documentatiepagina (HTML)
+- Twee CRUD interfaces (Games + Developers)
+- Basisvalidatie
+- Paginering (limit & offset)
+- Zoekfunctionaliteit
+- Root documentatiepagina (HTML)
 
 ### Extra Features
-- ✅ Geavanceerde validatie (URL formaat, jaar ranges)
-- ✅ Sorteren (rating, price, release_year, title)
-- ✅ Geavanceerde filters (price/rating ranges, meerdere genres)
-- ✅ Statistieken endpoint
-- ✅ Relatie endpoint (games per developer)
-- ✅ Security headers (helmet)
-- ✅ Input sanitization
+- Geavanceerde validatie (URL formaat, jaar ranges)
+- Sorteren (rating, price, release_year, title)
+- Geavanceerde filters (price/rating ranges, meerdere genres)
+- Statistieken endpoint
+- Relatie endpoint (games per developer)
+- Security headers (helmet)
+- Input sanitization
 
 ## Bronvermelding
 
@@ -64,3 +60,4 @@ Deze API is ontwikkeld met gebruikmaking van:
 - Node.js en Express.js officiële documentatie
 - MySQL2 package documentatie
 - MDN Web Docs voor JavaScript
+- copilot voor documentatie pagina en plannen/controle van code
