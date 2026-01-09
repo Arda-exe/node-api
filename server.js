@@ -12,7 +12,9 @@ app.use(express.json());
 
 // Routes
 const developersRoutes = require('./src/routes/developers');
+const gamesRoutes = require('./src/routes/games');
 app.use('/api/developers', developersRoutes);
+app.use('/api/games', gamesRoutes);
 
 // Root route
 app.get('/', (req, res) => {
