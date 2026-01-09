@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const { testConnection } = require('./config/database');
+const { testConnection, initializeDatabase } = require('./config/database');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,6 +37,7 @@ app.use((err, req, res, next) => {
 // Initialize database and start server
 async function startServer() {
   await testConnection();
+  await initializeDatabase();
 
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

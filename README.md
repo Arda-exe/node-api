@@ -11,21 +11,23 @@ Een RESTful API voor het beheren van videogames en hun ontwikkelaars, gebouwd me
 npm install
 ```
 
-2. Configureer MySQL:
-   - Installeer XAMPP of MAMP en start MySQL
-   - Open phpMyAdmin (http://localhost/phpmyadmin) of MySQL CLI
-   - Maak database aan: `CREATE DATABASE games_api;`
-   - Importeer `database/schema.sql` om tabellen aan te maken
-   - Importeer `database/seed.sql` voor voorbeelddata
+2. Configureer MySQL met XAMPP:
+   - Download en installeer [XAMPP](https://www.apachefriends.org/)
+   - Start de XAMPP Control Panel
+   - Start de **MySQL** service (klik op "Start" naast MySQL)
+   - Open phpMyAdmin: `http://localhost/phpmyadmin`
+   - Klik op "New" in de linkerzijbalk
+   - Maak database aan met naam: `games_api`
+   - Dat is alles! De tabellen en data worden automatisch aangemaakt bij de eerste start
 
 3. Configureer environment variables:
    - Kopieer `.env.example` naar `.env`
-   - Pas de database credentials aan in `.env`:
+   - Pas de database password aan in `.env` (standaard is dit leeg bij XAMPP):
 ```
 PORT=3000
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=jouw_mysql_wachtwoord
+DB_PASSWORD=
 DB_NAME=games_api
 ```
 
@@ -34,8 +36,9 @@ DB_NAME=games_api
 npm start
 ```
 
+De tabellen en voorbeelddata worden nu automatisch aangemaakt!
+
 De API is nu beschikbaar op `http://localhost:3000`
-API documentatie: `http://localhost:3000/index.html`
 
 ## Features
 
