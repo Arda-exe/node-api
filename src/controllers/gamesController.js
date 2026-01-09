@@ -2,8 +2,9 @@ const Game = require('../models/Game');
 
 exports.getAllGames = async (req, res) => {
   try {
-    const games = await Game.getAll();
-    res.json(games);
+    const { limit, offset } = req.query;
+    const result = await Game.getAll({ limit, offset });
+    res.json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

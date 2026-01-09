@@ -1,9 +1,28 @@
 const { pool } = require('../../config/database');
 
 class Game {
-  static async getAll() {
-    const [rows] = await pool.query('SELECT * FROM games ORDER BY id');
-    return rows;
+  static async getAll(params = {}) {
+    const { limit = 10, offset = 0 } = params;
+
+    // Get total count
+    const [countResult] = await pool.query('SELECT COUNT(*) as total FROM games');
+    const total = countResult[0].total;
+
+    // Get paginated results
+    const [rows] = await pool.query(
+      'SELECT * FROM games ORDER BY id LIMIT ? OFFSET ?',
+      [parseInt(limit), parseInt(offset)]
+    );
+
+    return {
+      data: rows,
+      pagination: {
+        total,
+        limit: parseInt(limit),
+        offset: parseInt(offset),
+        hasMore: (parseInt(offset) + parseInt(limit)) < total
+      }
+    };
   }
 
   static async getById(id) {
