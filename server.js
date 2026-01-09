@@ -10,6 +10,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const developersRoutes = require('./src/routes/developers');
+app.use('/api/developers', developersRoutes);
+
 // Root route
 app.get('/', (req, res) => {
   res.send('Games API is running');
