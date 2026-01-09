@@ -28,22 +28,12 @@ class Statistics {
       ORDER BY count DESC
     `);
 
-    // Most popular platform
-    const [mostPopularPlatform] = await pool.query(`
-      SELECT platform, COUNT(*) as count
-      FROM games
-      GROUP BY platform
-      ORDER BY count DESC
-      LIMIT 1
-    `);
-
     return {
       totalGames: gamesCount[0].total,
       totalDevelopers: developersCount[0].total,
       averageRating: parseFloat(avgRating[0].average).toFixed(2),
       topDevelopersByRating: avgPerDeveloper,
-      gamesPerGenre: gamesPerGenre,
-      mostPopularPlatform: mostPopularPlatform[0] || null
+      gamesPerGenre: gamesPerGenre
     };
   }
 }
