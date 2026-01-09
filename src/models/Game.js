@@ -2,7 +2,7 @@ const { pool } = require('../../config/database');
 
 class Game {
   static async getAll(params = {}) {
-    const { limit = 10, offset = 0, search, genre, sort, order = 'asc' } = params;
+    const { limit = 10, offset = 0, search, genre, genres, sort, order = 'asc', minPrice, maxPrice, minRating, maxRating } = params;
 
     // Build WHERE clause
     const conditions = [];
@@ -16,6 +16,34 @@ class Game {
     if (genre) {
       conditions.push('genre = ?');
       values.push(genre);
+    }
+
+    // Multiple genres filter
+    if (genres) {
+      const genreArray = genres.split(',').map(g => g.trim());
+      const placeholders = genreArray.map(() => '?').join(',');
+      conditions.push(`genre IN (${placeholders})`);
+      values.push(...genreArray);
+    }
+
+    // Price range filter
+    if (minPrice !== undefined && minPrice !== null && minPrice !== '') {
+      conditions.push('price >= ?');
+      values.push(parseFloat(minPrice));
+    }
+    if (maxPrice !== undefined && maxPrice !== null && maxPrice !== '') {
+      conditions.push('price <= ?');
+      values.push(parseFloat(maxPrice));
+    }
+
+    // Rating range filter
+    if (minRating !== undefined && minRating !== null && minRating !== '') {
+      conditions.push('rating >= ?');
+      values.push(parseFloat(minRating));
+    }
+    if (maxRating !== undefined && maxRating !== null && maxRating !== '') {
+      conditions.push('rating <= ?');
+      values.push(parseFloat(maxRating));
     }
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
