@@ -2,7 +2,8 @@ const Developer = require('../models/Developer');
 
 exports.getAllDevelopers = async (req, res) => {
   try {
-    const developers = await Developer.getAll();
+    const { search } = req.query;
+    const developers = await Developer.getAll({ search });
     res.json(developers);
   } catch (error) {
     res.status(500).json({ error: error.message });

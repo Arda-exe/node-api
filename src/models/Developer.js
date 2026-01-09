@@ -1,8 +1,18 @@
 const { pool } = require('../../config/database');
 
 class Developer {
-  static async getAll() {
-    const [rows] = await pool.query('SELECT * FROM developers ORDER BY id');
+  static async getAll(params = {}) {
+    const { search } = params;
+    let query = 'SELECT * FROM developers';
+    const values = [];
+
+    if (search) {
+      query += ' WHERE name LIKE ? OR country LIKE ?';
+      values.push(`%${search}%`, `%${search}%`);
+    }
+
+    query += ' ORDER BY id';
+    const [rows] = await pool.query(query, values);
     return rows;
   }
 
