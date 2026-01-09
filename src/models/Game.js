@@ -2,7 +2,7 @@ const { pool } = require('../../config/database');
 
 class Game {
   static async getAll(params = {}) {
-    const { limit = 10, offset = 0, search, genre, genres, sort, order = 'asc', minPrice, maxPrice, minRating, maxRating } = params;
+    const { limit = 10, offset = 0, search, genre, genres, sort, order = 'asc', minRating, maxRating } = params;
 
     // Build WHERE clause
     const conditions = [];
@@ -26,16 +26,6 @@ class Game {
       values.push(...genreArray);
     }
 
-    // Price range filter
-    if (minPrice !== undefined && minPrice !== null && minPrice !== '') {
-      conditions.push('price >= ?');
-      values.push(parseFloat(minPrice));
-    }
-    if (maxPrice !== undefined && maxPrice !== null && maxPrice !== '') {
-      conditions.push('price <= ?');
-      values.push(parseFloat(maxPrice));
-    }
-
     // Rating range filter
     if (minRating !== undefined && minRating !== null && minRating !== '') {
       conditions.push('rating >= ?');
@@ -49,7 +39,7 @@ class Game {
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
     // Build ORDER BY clause
-    const validSortFields = ['rating', 'release_year', 'price', 'title', 'id'];
+    const validSortFields = ['rating', 'release_year', 'title', 'id'];
     const sortField = validSortFields.includes(sort) ? sort : 'id';
     const sortOrder = order.toLowerCase() === 'desc' ? 'DESC' : 'ASC';
     const orderClause = `ORDER BY ${sortField} ${sortOrder}`;
@@ -84,7 +74,7 @@ class Game {
   }
 
   static async create(data) {
-    const { title, description, genre, release_year, platform, rating, price, developer_id } = data;
+    const { title, description, genre, release_year, platform, rating, developer_id } = data;
 
     // Check if developer exists
     const [devRows] = await pool.query('SELECT id FROM developers WHERE id = ?', [developer_id]);
@@ -93,14 +83,25 @@ class Game {
     }
 
     const [result] = await pool.query(
-      'INSERT INTO games (title, description, genre, release_year, platform, rating, price, developer_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [title, description, genre, release_year, platform, rating, price, developer_id]
+      'INSERT INTO games (title, description, genre, release_year, platform, rating, developer_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [title, description, genre, release_year, platform, rating, developer_id]
     );
+    
+    // Update developer's game count
+    await pool.query(
+      'UPDATE developers SET game_count = game_count + 1 WHERE id = ?',
+      [developer_id]
+    );
+    
     return { id: result.insertId, ...data };
   }
 
   static async update(id, data) {
-    const { title, description, genre, release_year, platform, rating, price, developer_id } = data;
+    const { title, description, genre, release_year, platform, rating, developer_id } = data;
+
+    // Get old developer_id
+    const [oldGame] = await pool.query('SELECT developer_id FROM games WHERE id = ?', [id]);
+    const oldDeveloperId = oldGame[0]?.developer_id;
 
     // Check if developer exists
     const [devRows] = await pool.query('SELECT id FROM developers WHERE id = ?', [developer_id]);
@@ -109,14 +110,34 @@ class Game {
     }
 
     await pool.query(
-      'UPDATE games SET title = ?, description = ?, genre = ?, release_year = ?, platform = ?, rating = ?, price = ?, developer_id = ? WHERE id = ?',
-      [title, description, genre, release_year, platform, rating, price, developer_id, id]
+      'UPDATE games SET title = ?, description = ?, genre = ?, release_year = ?, platform = ?, rating = ?, developer_id = ? WHERE id = ?',
+      [title, description, genre, release_year, platform, rating, developer_id, id]
     );
+    
+    // Update game counts if developer changed
+    if (oldDeveloperId && oldDeveloperId !== developer_id) {
+      await pool.query('UPDATE developers SET game_count = game_count - 1 WHERE id = ?', [oldDeveloperId]);
+      await pool.query('UPDATE developers SET game_count = game_count + 1 WHERE id = ?', [developer_id]);
+    }
+    
     return { id, ...data };
   }
 
   static async delete(id) {
+    // Get developer_id before deleting
+    const [game] = await pool.query('SELECT developer_id FROM games WHERE id = ?', [id]);
+    const developerId = game[0]?.developer_id;
+    
     await pool.query('DELETE FROM games WHERE id = ?', [id]);
+    
+    // Update developer's game count
+    if (developerId) {
+      await pool.query(
+        'UPDATE developers SET game_count = game_count - 1 WHERE id = ?',
+        [developerId]
+      );
+    }
+    
     return { id };
   }
 }

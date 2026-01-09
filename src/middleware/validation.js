@@ -1,8 +1,8 @@
-const { isValidYear, isValidURL, isNonEmptyString, isValidRating, isValidPrice, trim } = require('../utils/validators');
+const { isValidYear, isNonEmptyString, isValidRating, trim } = require('../utils/validators');
 
 exports.validateDeveloper = (req, res, next) => {
   req.body = trim(req.body);
-  const { name, country, founded_year, website } = req.body;
+  const { name, country, founded_year } = req.body;
   const errors = [];
 
   if (!isNonEmptyString(name)) {
@@ -19,10 +19,6 @@ exports.validateDeveloper = (req, res, next) => {
     errors.push('Founded year must be between 1950 and current year');
   }
 
-  if (website && !isValidURL(website)) {
-    errors.push('Website must be a valid URL');
-  }
-
   if (errors.length > 0) {
     return res.status(400).json({ error: 'Validation failed', details: errors });
   }
@@ -32,7 +28,7 @@ exports.validateDeveloper = (req, res, next) => {
 
 exports.validateGame = (req, res, next) => {
   req.body = trim(req.body);
-  const { title, description, genre, release_year, platform, rating, price, developer_id } = req.body;
+  const { title, description, genre, release_year, platform, rating, developer_id } = req.body;
   const errors = [];
 
   if (!isNonEmptyString(title)) {
@@ -61,12 +57,6 @@ exports.validateGame = (req, res, next) => {
     errors.push('Rating is required');
   } else if (!isValidRating(rating)) {
     errors.push('Rating must be a number between 0 and 10');
-  }
-
-  if (price === undefined || price === null || price === '') {
-    errors.push('Price is required');
-  } else if (!isValidPrice(price)) {
-    errors.push('Price must be a positive number');
   }
 
   if (!developer_id) {

@@ -12,19 +12,19 @@ class Developer {
   }
 
   static async create(data) {
-    const { name, country, founded_year, website } = data;
+    const { name, country, founded_year } = data;
     const [result] = await pool.query(
-      'INSERT INTO developers (name, country, founded_year, website) VALUES (?, ?, ?, ?)',
-      [name, country, founded_year, website]
+      'INSERT INTO developers (name, country, founded_year) VALUES (?, ?, ?)',
+      [name, country, founded_year]
     );
     return { id: result.insertId, ...data };
   }
 
   static async update(id, data) {
-    const { name, country, founded_year, website } = data;
+    const { name, country, founded_year } = data;
     await pool.query(
-      'UPDATE developers SET name = ?, country = ?, founded_year = ?, website = ? WHERE id = ?',
-      [name, country, founded_year, website, id]
+      'UPDATE developers SET name = ?, country = ?, founded_year = ? WHERE id = ?',
+      [name, country, founded_year, id]
     );
     return { id, ...data };
   }
