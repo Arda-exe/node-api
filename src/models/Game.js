@@ -2,7 +2,7 @@ const { pool } = require('../../config/database');
 
 class Game {
   static async getAll(params = {}) {
-    const { limit = 10, offset = 0, search, genre } = params;
+    const { limit = 10, offset = 0, search, genre, sort, order = 'asc' } = params;
 
     // Build WHERE clause
     const conditions = [];
@@ -20,6 +20,12 @@ class Game {
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
+    // Build ORDER BY clause
+    const validSortFields = ['rating', 'release_year', 'price', 'title', 'id'];
+    const sortField = validSortFields.includes(sort) ? sort : 'id';
+    const sortOrder = order.toLowerCase() === 'desc' ? 'DESC' : 'ASC';
+    const orderClause = `ORDER BY ${sortField} ${sortOrder}`;
+
     // Get total count
     const [countResult] = await pool.query(
       `SELECT COUNT(*) as total FROM games ${whereClause}`,
@@ -29,7 +35,7 @@ class Game {
 
     // Get paginated results
     const [rows] = await pool.query(
-      `SELECT * FROM games ${whereClause} ORDER BY id LIMIT ? OFFSET ?`,
+      `SELECT * FROM games ${whereClause} ${orderClause} LIMIT ? OFFSET ?`,
       [...values, parseInt(limit), parseInt(offset)]
     );
 
