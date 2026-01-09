@@ -33,6 +33,14 @@ class Developer {
     await pool.query('DELETE FROM developers WHERE id = ?', [id]);
     return { id };
   }
+
+  static async getGames(developerId) {
+    const [rows] = await pool.query(
+      'SELECT * FROM games WHERE developer_id = ? ORDER BY id',
+      [developerId]
+    );
+    return rows;
+  }
 }
 
 module.exports = Developer;

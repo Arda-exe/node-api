@@ -5,6 +5,7 @@ const { validateDeveloper } = require('../middleware/validation');
 
 router.get('/', developersController.getAllDevelopers);
 router.get('/:id', developersController.getDeveloperById);
+router.get('/:id/games', developersController.getDeveloperGames);
 router.post('/', validateDeveloper, developersController.createDeveloper);
 router.put('/:id', validateDeveloper, developersController.updateDeveloper);
 router.delete('/:id', developersController.deleteDeveloper);

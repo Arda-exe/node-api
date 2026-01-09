@@ -55,3 +55,16 @@ exports.deleteDeveloper = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getDeveloperGames = async (req, res) => {
+  try {
+    const developer = await Developer.getById(req.params.id);
+    if (!developer) {
+      return res.status(404).json({ error: 'Developer not found' });
+    }
+    const games = await Developer.getGames(req.params.id);
+    res.json(games);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
