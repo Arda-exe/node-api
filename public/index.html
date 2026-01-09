@@ -4,13 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games API Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #282a36;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #0d1f3c;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+            font-weight: 600;
+        }
+
+        h2 {
+            color: #0d1f3c;
+            font-size: 1.8em;
+            margin-top: 2em;
+            margin-bottom: 1em;
+            font-weight: 600;
+            border-bottom: 2px solid #e1e4e8;
+            padding-bottom: 0.3em;
+        }
+
+        p {
+            margin-bottom: 1em;
+            color: #586069;
+        }
+
+        code {
+            background-color: #f6f8fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "SF Mono", Monaco, "Courier New", monospace;
+            font-size: 0.9em;
+            color: #0969da;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2em;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #0d1f3c;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e1e4e8;
+            font-size: 0.95em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f6f8fa;
+        }
+
+        td:first-child {
+            font-weight: 600;
+            color: #0969da;
+        }
+
+        td:nth-child(2) {
+            font-family: "SF Mono", Monaco, "Courier New", monospace;
+            color: #24292f;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Games API Documentation</h1>
     <p>Base URL: <code>http://localhost:3000</code></p>
 
     <h2>Developers Endpoints</h2>
-    <table border="1" cellpadding="10">
+    <table>
         <tr>
             <th>Method</th>
             <th>Endpoint</th>
@@ -56,7 +169,7 @@
     </table>
 
     <h2>Games Endpoints</h2>
-    <table border="1" cellpadding="10">
+    <table>
         <tr>
             <th>Method</th>
             <th>Endpoint</th>
@@ -107,7 +220,7 @@
     </table>
 
     <h2>Statistics Endpoint</h2>
-    <table border="1" cellpadding="10">
+    <table>
         <tr>
             <th>Method</th>
             <th>Endpoint</th>
